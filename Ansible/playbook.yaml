@@ -1,0 +1,29 @@
+---
+- name: Обновить кэш репозитория
+  hosts: all
+  become: yes
+  tasks:
+    - name: Обновить кэш apt
+      apt:
+        update_cache: yes
+        cache_valid_time: 7200  # время в секундах, в течение которого кэш считается актуальны
+
+- name: Установка стандартных пакетов на все ВМ
+  hosts: all
+  become: yes  
+  roles:
+    - role: setup_packages
+
+- name: Установка и настройка nginx c кастомной страницей
+  hosts: all # Будет работать на узлах в группе nginx
+  become: yes
+  roles:
+    - role: setup_nginx
+  
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted  
+  tags:
+    - nginx_custom
