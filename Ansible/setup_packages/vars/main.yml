@@ -1,0 +1,9 @@
+---
+# vars file for setup_packages
+packages_to_install:
+  - dnsutils
+  - net-tools
+  - rsync
+  - mc
+  - curl
+  - wget
